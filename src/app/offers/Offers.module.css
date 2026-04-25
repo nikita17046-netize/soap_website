@@ -1,0 +1,182 @@
+.main {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding: 140px 5% 100px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.label {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: var(--accent-secondary);
+  margin-bottom: 15px;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.card {
+  background: var(--white);
+  padding: 40px 30px;
+  border-radius: 40px;
+  text-align: center;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.02);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 520px; /* Force minimum height for consistency */
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  border-color: var(--accent-secondary);
+  box-shadow: 0 30px 70px rgba(156, 126, 93, 0.1);
+}
+
+.tag {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--white);
+  background: var(--accent-secondary);
+  padding: 5px 14px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 15px;
+}
+
+.giftPreview {
+  margin-bottom: 15px;
+  position: relative;
+  background: #fdfdfd;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px dashed rgba(156, 126, 93, 0.2);
+  width: 100%;
+  max-width: 200px;
+}
+
+
+.giftImg {
+  object-fit: contain;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.05));
+}
+
+.giftLabel {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-secondary);
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+.offerCode {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  letter-spacing: 3px;
+  opacity: 0.5;
+  margin-bottom: 10px;
+}
+
+
+.cardTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: var(--accent-primary);
+  margin-bottom: 25px;
+  font-weight: 700;
+}
+
+.description {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  flex: 1;
+}
+
+.highlight {
+  color: var(--accent-secondary);
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.redeemBtn {
+  background: var(--accent-primary);
+  color: var(--white);
+  padding: 18px 45px;
+  border-radius: 50px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.redeemBtn:hover {
+  background: var(--accent-secondary);
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(156, 126, 93, 0.2);
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .title {
+    font-size: 2.8rem;
+  }
+  .card {
+    padding: 40px 30px;
+  }
+}
