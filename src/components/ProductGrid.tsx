@@ -6,31 +6,8 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCart, Product } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
+import { PRODUCTS, Product as ProductType } from '@/constants/products';
 import styles from './ProductGrid.module.css';
-
-
-const products: Product[] = [
-  { id: 1, name: 'Calm Lavender', price: 350, image: '/lavender.png', category: 'Floral', description: 'Infused with organic lavender oil and dried buds for a soothing bath experience.' },
-  { id: 2, name: 'Midnight Charcoal', price: 400, image: '/charcoal.png', category: 'Detox', description: 'Deep cleansing activated charcoal with a refreshing peppermint scent.' },
-  { id: 3, name: 'Honey & Oat Scrub', price: 380, image: '/honey-oats.png', category: 'Exfoliating', description: 'Gentle exfoliation with natural oats and moisturizing wild honey.' },
-  { id: 4, name: 'Citrus Burst', price: 320, image: '/citrus.png', category: 'Citrus', description: 'Zesty orange and lemon essential oils for an energizing morning wash.' },
-  { id: 5, name: 'Eucalyptus Mint', price: 360, image: '/eucalyptus.png', category: 'Refreshing', description: 'Cooling eucalyptus and fresh mint to clear your senses.' },
-  { id: 6, name: 'Rose Petal Glow', price: 450, image: '/rose.png', category: 'Floral', description: 'Luxurious rosehip oil and real rose petals for a radiant complexion.' },
-  { id: 7, name: 'Sandalwood Serenity', price: 480, image: '/sandalwood.png', category: 'Woody', description: 'Ancient sandalwood extract for a meditative and calming experience.' },
-  { id: 8, name: 'Turmeric & Neem', price: 340, image: '/turmeric.png', category: 'Herbal', description: 'Traditional Ayurvedic blend for healthy, blemish-free skin.' },
-  { id: 9, name: 'Coffee Bean Blast', price: 390, image: '/coffee.png', category: 'Exfoliating', description: 'Real ground coffee beans to wake up your skin and senses.' },
-  { id: 10, name: 'Aloe Vera Cool', price: 330, image: '/aloe.png', category: 'Soothing', description: 'Pure aloe vera gel to hydrate and soothe sensitive skin.' },
-  { id: 11, name: 'Tea Tree Purify', price: 370, image: '/teatree.png', category: 'Detox', description: 'Powerful tea tree oil to naturally purify and balance your skin.' },
-  { id: 12, name: 'Vanilla Bean Cream', price: 420, image: '/vanilla.png', category: 'Sweet', description: 'Warm vanilla pod extract and shea butter for ultimate softness.' },
-  { id: 13, name: 'Sea Salt & Kelp', price: 410, image: '/seasalt.png', category: 'Refreshing', description: 'Mineral-rich sea salt for a spa-like oceanic cleanse.' },
-  { id: 14, name: 'Jasmine Bloom', price: 460, image: '/jasmine.png', category: 'Floral', description: 'Intoxicating night-blooming jasmine for a romantic bath.' },
-  { id: 15, name: 'Cedarwood Spice', price: 390, image: '/cedar.png', category: 'Woody', description: 'Deep forest cedarwood with a hint of warm clove spice.' },
-  { id: 16, name: 'Patchouli Earth', price: 430, image: '/patchouli.png', category: 'Woody', description: 'Grounded patchouli essential oil for a deep, earthy aroma.' },
-  { id: 17, name: 'Green Tea Zen', price: 350, image: '/greentea.png', category: 'Refreshing', description: 'Antioxidant-rich green tea leaves for a rejuvenating wash.' },
-  { id: 18, name: 'Coconut Milk Silk', price: 380, image: '/coconut.png', category: 'Soothing', description: 'Creamy coconut milk for a silky smooth and hydrated feel.' },
-  { id: 19, name: 'Lemongrass Zest', price: 320, image: '/lemongrass.png', category: 'Citrus', description: 'Sharp lemongrass oil to uplift your mood and refresh your body.' },
-  { id: 20, name: 'Hibiscus Pink', price: 440, image: '/hibiscus.png', category: 'Floral', description: 'Vitamin C rich hibiscus petals for a bright and youthful glow.' }
-];
 
 const OFFER_PRODUCTS: Record<string, { ids: number[], discountType: string, customPrice?: number }> = {
   'AURA15': { ids: [1, 6, 10], discountType: '15% OFF' },
@@ -59,9 +36,19 @@ const ProductGrid = ({ limit, showFilters = true }: ProductGridProps) => {
   const [selectedCategory, setSelectedCategory] = React.useState('All');
   const [sortBy, setSortBy] = React.useState('featured');
 
-  const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
+  // Handle URL search parameter
+  React.useEffect(() => {
+    const search = searchParams.get('search');
+    if (search) {
+      setSearchQuery(search);
+    }
+  }, [searchParams, setSearchQuery]);
 
-  const handleAddToCart = (product: Product) => {
+  const categories = ['All', ...Array.from(new Set(PRODUCTS.map(p => p.category)))];
+
+  const handleAddToCart = (e: React.MouseEvent, product: any) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (!isLoggedIn) {
       router.push('/login');
       return;
@@ -82,12 +69,12 @@ const ProductGrid = ({ limit, showFilters = true }: ProductGridProps) => {
     }
   };
 
-  let filteredProducts = products;
+  let filteredProducts = PRODUCTS;
   let currentOffer = redeemCode ? OFFER_PRODUCTS[redeemCode] : null;
 
   // Filter and Apply Special Offer Prices
   if (redeemCode && currentOffer) {
-    filteredProducts = products
+    filteredProducts = PRODUCTS
       .filter(p => currentOffer!.ids.includes(p.id))
       .map(p => {
         let newPrice = p.price;
@@ -98,13 +85,14 @@ const ProductGrid = ({ limit, showFilters = true }: ProductGridProps) => {
       });
   } else {
     // Normal filtering
-    filteredProducts = products.filter(product => {
+    filteredProducts = PRODUCTS.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             product.description.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
   }
+
 
   // Apply sorting
   filteredProducts = [...filteredProducts].sort((a, b) => {
@@ -175,7 +163,11 @@ const ProductGrid = ({ limit, showFilters = true }: ProductGridProps) => {
         <div className={styles.grid}>
           {displayedProducts.length > 0 ? (
             displayedProducts.map((product) => (
-              <div key={product.id} className={`${styles.card} ${redeemCode ? styles.offerCard : ''} card-premium animate-up`}>
+              <Link 
+                href={`/shop/product/${product.id}`} 
+                key={product.id} 
+                className={`${styles.card} ${redeemCode ? styles.offerCard : ''} card-premium animate-up`}
+              >
                 <div className={styles.imageWrapper}>
                   <Image 
                     src={product.image} 
@@ -199,14 +191,14 @@ const ProductGrid = ({ limit, showFilters = true }: ProductGridProps) => {
                     </div>
                     <button 
                       className="btn-primary"
-                      onClick={() => handleAddToCart(product)}
+                      onClick={(e) => handleAddToCart(e, product)}
                       suppressHydrationWarning
                     >
                       Add to Cart
                     </button>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))
           ) : (
             <div className={styles.noResults}>
@@ -230,7 +222,7 @@ const ProductGrid = ({ limit, showFilters = true }: ProductGridProps) => {
         </div>
 
         {/* View All Button for Homepage */}
-        {limit && products.length > limit && (
+        {limit && PRODUCTS.length > limit && (
           <div className={styles.viewAllWrapper}>
             <Link href="/shop" className="btn-secondary">
               View All Products

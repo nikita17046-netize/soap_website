@@ -1,0 +1,133 @@
+.page {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.header {
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #fdfaf6;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.headerContent {
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.label {
+  display: block;
+  font-size: 0.9rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: var(--accent-secondary);
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.5rem;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+.content {
+  padding: 120px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.card {
+  display: flex;
+  gap: 30px;
+  padding: 40px;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.03);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+  border-color: var(--accent-secondary);
+}
+
+.icon {
+  font-size: 3rem;
+}
+
+.info h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  margin: 10px 0;
+}
+
+.benefit {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: var(--accent-secondary);
+}
+
+.info p {
+  line-height: 1.7;
+  opacity: 0.7;
+  font-size: 1rem;
+}
+
+.promise {
+  padding-bottom: 120px;
+}
+
+.promiseBox {
+  background-color: var(--accent-primary);
+  color: white;
+  padding: 80px;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.promiseBox h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.promiseBox p {
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  opacity: 0.9;
+  line-height: 1.8;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .title {
+    font-size: 3rem;
+  }
+  .promiseBox {
+    padding: 40px 20px;
+  }
+}
