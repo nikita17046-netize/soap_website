@@ -1,0 +1,209 @@
+.footer {
+  background: var(--accent-primary);
+  color: var(--white);
+  padding: 100px 5% 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+  gap: 60px;
+  margin-bottom: 80px;
+}
+
+@media (max-width: 1024px) {
+  .top {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .top {
+    grid-template-columns: 1fr;
+  }
+}
+
+.brandColumn .logo {
+  text-decoration: none;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: transform 0.3s ease;
+}
+
+.brandColumn .logo:hover {
+  transform: translateX(5px);
+}
+
+.brandName {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: 0.5px;
+}
+
+.logoIcon {
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.brandColumn p {
+  opacity: 0.6;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  max-width: 250px;
+}
+
+.columnTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+  color: var(--accent-secondary);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.link {
+  color: var(--white);
+  text-decoration: none;
+  font-size: 0.9rem;
+  opacity: 0.5;
+  transition: var(--transition);
+}
+
+.link:hover {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
+.newsletterColumn p {
+  font-size: 0.9rem;
+  opacity: 0.6;
+  margin-bottom: 25px;
+}
+
+.newsletterForm {
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
+}
+
+.newsletterInput {
+  background: transparent;
+  border: none;
+  color: var(--white);
+  padding: 10px 0;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.newsletterInput:focus {
+  outline: none;
+}
+
+.newsletterInput::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.newsletterSubmit {
+  background: transparent;
+  border: none;
+  color: var(--accent-secondary);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.newsletterSubmit:hover {
+  color: var(--white);
+}
+
+.bottom {
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .bottom {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+}
+
+.copyright {
+  font-size: 0.8rem;
+  opacity: 0.4;
+}
+
+.socials {
+  display: flex;
+  gap: 25px;
+}
+
+.socialIcon {
+  color: var(--white);
+  opacity: 0.4;
+  transition: var(--transition);
+}
+
+.socialIcon:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+:global([data-theme="dark"]) .footer {
+  background: #020817; /* Even deeper than bg-primary */
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:global([data-theme="dark"]) .brandName,
+:global([data-theme="dark"]) .link,
+:global([data-theme="dark"]) .socialIcon,
+:global([data-theme="dark"]) .newsletterInput {
+  color: #FCFAF7 !important;
+}
+
+:global([data-theme="dark"]) .brandColumn p,
+:global([data-theme="dark"]) .newsletterColumn p,
+:global([data-theme="dark"]) .copyright {
+  color: #A8B2C1;
+  opacity: 0.8;
+}
+
+:global([data-theme="dark"]) .newsletterForm {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+:global([data-theme="dark"]) .newsletterSubmit {
+  color: var(--accent-secondary);
+}
+
+:global([data-theme="dark"]) .newsletterSubmit:hover {
+  color: #fff;
+}

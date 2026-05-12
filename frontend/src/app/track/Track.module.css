@@ -1,0 +1,231 @@
+.pageContainer {
+  min-height: 100vh;
+  padding: 160px 20px 80px;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.backgroundElement {
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(156, 126, 93, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.contentWrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  color: var(--accent-primary);
+  margin-bottom: 15px;
+  letter-spacing: -2px;
+}
+
+.header p {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 50px;
+}
+
+.glassCard {
+  background: var(--white);
+  padding: 50px;
+  border-radius: 40px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+}
+
+.glassCard::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border: 1px solid rgba(156, 126, 93, 0.1);
+  border-radius: 30px;
+  pointer-events: none;
+}
+
+.searchBox {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.inputGroup label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent-primary);
+  padding-left: 15px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputWrapper svg {
+  position: absolute;
+  left: 20px;
+  color: var(--accent-secondary);
+  opacity: 0.6;
+}
+
+.input {
+  width: 100%;
+  padding: 18px 25px 18px 55px;
+  background: rgba(0,0,0,0.03);
+  border: 1px solid transparent;
+  border-radius: 100px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--accent-primary);
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  background: var(--white);
+  border-color: var(--accent-secondary);
+  outline: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.trackBtn {
+  background: var(--accent-primary);
+  color: var(--white);
+  padding: 20px;
+  border-radius: 100px;
+  border: none;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  margin-top: 10px;
+}
+
+.trackBtn:hover {
+  background: var(--accent-secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(156, 126, 93, 0.2);
+}
+
+.trackBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.resultSection {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  text-align: left;
+}
+
+.statusHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.statusBadge {
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.statusPending { background: #fff8e1; color: #f57c00; }
+.statusShipped { background: #e3f2fd; color: #1976d2; }
+.statusDelivered { background: #e8f5e9; color: #388e3c; }
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 20px;
+  position: relative;
+}
+
+.timelineItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 25px;
+  width: 2px;
+  height: calc(100% - 5px);
+  background: rgba(0,0,0,0.05);
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 2px solid var(--accent-secondary);
+  z-index: 1;
+}
+
+.timelineItem.active .dot {
+  background: var(--accent-secondary);
+  box-shadow: 0 0 15px var(--accent-secondary);
+}
+
+.timelineContent h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  color: var(--accent-primary);
+  margin: 0;
+}
+
+.timelineContent p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 3px 0 0;
+}
+
+.errorBox {
+  margin-top: 20px;
+  color: #e74c3c;
+  font-size: 0.9rem;
+  font-style: italic;
+}

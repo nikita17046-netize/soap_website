@@ -1,0 +1,309 @@
+.pageContainer {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  padding: 160px 40px 80px;
+}
+
+.pageBg {
+  object-fit: cover;
+  z-index: -1;
+  transform-origin: center;
+}
+
+
+.pageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+  z-index: 0;
+}
+
+
+.centeredCard {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  justify-content: center;
+  transition: max-width 0.5s ease;
+}
+
+.centeredCard.wide {
+  max-width: 580px;
+}
+
+
+.glassCard {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  padding: 60px 45px;
+  border-radius: 40px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.2);
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  width: 100%;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.glassCard::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Webkit */
+}
+
+
+.glassCard::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border: 1px solid rgba(156, 126, 93, 0.1); 
+  pointer-events: none;
+  border-radius: 30px;
+}
+
+.cardHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+
+.label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: var(--accent-secondary);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.cardHeader h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: var(--accent-primary);
+  margin-bottom: 15px;
+  letter-spacing: -1px;
+}
+
+.cardHeader p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+
+.inputField label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent-primary);
+  padding-left: 20px;
+}
+
+.inputField input {
+  background: rgba(0,0,0,0.03);
+  border: 1px solid transparent;
+  padding: 16px 24px;
+  width: 100%;
+  font-size: 1rem;
+  border-radius: var(--radius-full); /* Rounded inputs */
+  transition: var(--transition);
+  color: var(--accent-primary);
+}
+
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.passwordWrapper input {
+  padding-right: 60px;
+}
+
+.toggleBtn {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--accent-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition: var(--transition);
+  opacity: 0.7;
+}
+
+.toggleBtn:hover {
+  opacity: 1;
+  color: var(--accent-primary);
+}
+
+.inputField input:focus {
+  background: var(--white);
+  border-color: var(--accent-secondary);
+  outline: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+
+
+.signInBtn {
+  background: var(--accent-primary);
+  color: var(--white);
+  padding: 18px;
+  border-radius: var(--radius-full); /* Rounded button */
+  border: none;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 10px;
+}
+
+
+.signInBtn:hover {
+  background: var(--accent-secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(156, 126, 93, 0.2);
+}
+
+.cardFooter {
+  margin-top: 40px;
+  text-align: center;
+  padding-top: 25px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+
+.cardFooter p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.cardFooter a {
+  color: var(--accent-secondary);
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 5px;
+}
+
+.errorMessage {
+  background: rgba(255, 77, 77, 0.1);
+  border: 1px solid rgba(255, 77, 77, 0.2);
+  color: #ff4d4d;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-family: 'Outfit', sans-serif;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.backHome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--accent-secondary);
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 25px;
+  transition: var(--transition);
+  opacity: 0.8;
+}
+
+.backHome:hover {
+  color: var(--accent-primary);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.backHome svg {
+  transition: transform 0.3s ease;
+}
+
+.backHome:hover svg {
+  transform: translateX(-5px);
+}
+
+:global([data-theme="dark"]) .glassCard {
+  background: rgba(15, 23, 42, 0.85); /* Sophisticated Dark Navy Glass */
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+}
+
+:global([data-theme="dark"]) .glassCard::before {
+  border-color: rgba(234, 179, 8, 0.15); /* Gold accent in dark mode */
+}
+
+:global([data-theme="dark"]) .inputField input {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+:global([data-theme="dark"]) .inputField input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-secondary);
+}
+
+:global([data-theme="dark"]) .cardHeader p,
+:global([data-theme="dark"]) .cardFooter p {
+  color: #94A3B8;
+}
+
+:global([data-theme="dark"]) .cardFooter {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+:global([data-theme="dark"]) .signInBtn {
+  background: var(--accent-secondary);
+  color: #000;
+  font-weight: 800;
+}
+
+:global([data-theme="dark"]) .signInBtn:hover {
+  background: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(234, 179, 8, 0.2);
+}

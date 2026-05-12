@@ -1,0 +1,107 @@
+.shopMain {
+  padding-top: 90px;
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.headerSection {
+  padding: 60px 5% 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.decorativeElement {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(156, 126, 93, 0.05) 0%, transparent 70%);
+  z-index: 0;
+}
+
+.headerContent {
+  position: relative;
+  z-index: 1;
+}
+
+.bgText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 15rem;
+  font-weight: 900;
+  color: rgba(0,0,0,0.02);
+  zIndex: -1;
+  pointerEvents: none;
+  letter-spacing: 0.2em;
+}
+
+.label {
+  color: var(--accent-secondary);
+  margin-bottom: 20px;
+  display: block;
+  font-size: 0.85rem;
+  letter-spacing: 0.5em;
+  font-weight: 600;
+}
+
+.headline {
+  font-size: 7rem;
+  margin-bottom: 10px;
+  line-height: 0.9;
+  letter-spacing: -4px;
+  color: var(--accent-primary);
+}
+
+.italic {
+  font-style: italic;
+  color: var(--accent-secondary);
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+}
+
+.description {
+  color: var(--text-secondary);
+  maxWidth: 550px;
+  margin: 0 auto;
+  fontSize: 1.2rem;
+  line-height: 1.8;
+  opacity: 0.8;
+}
+
+.gridContainer {
+  padding: 40px 5% 100px;
+  max-width: 1600px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .headerSection {
+    padding: 40px 20px 0;
+  }
+
+  .headline {
+    font-size: 3rem;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+
+  .bgText {
+    font-size: 6rem;
+  }
+
+  .description {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+
+  .gridContainer {
+    padding: 20px 10px 60px;
+  }
+}

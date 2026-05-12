@@ -1,0 +1,138 @@
+/* 
+  SaptAroma Master Responsive System (v2.0 - Ultra Premium)
+  Centralized mobile logic for a flawless user experience.
+*/
+
+@media (max-width: 992px) {
+  /* Core Reset */
+  body, html {
+    overflow-x: hidden;
+    width: 100vw;
+  }
+
+  .container, [class*="container"] {
+    max-width: 100% !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin: 0 auto !important;
+  }
+
+  /* --- Hero Section - Ultra Premium Mobile Design --- */
+  [class*="Hero_hero"] {
+    padding: 80px 0 0 !important; /* Remove top padding for edge-to-edge feel */
+    min-height: 90vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: var(--bg-primary) !important;
+    text-align: center;
+  }
+
+  [class*="Hero_container"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+
+  [class*="Hero_editorialContent"] {
+    padding: 40px 20px !important;
+    z-index: 10;
+    background: linear-gradient(to bottom, var(--bg-primary) 80%, transparent);
+  }
+
+  [class*="Hero_headline"] {
+    font-size: 2.8rem !important;
+    line-height: 1.05 !important;
+    letter-spacing: -2px !important;
+    margin-bottom: 15px !important;
+  }
+
+  [class*="Hero_headline"] span {
+    font-size: 3.2rem !important;
+  }
+
+  [class*="Hero_mainImage"] {
+    height: 45vh !important;
+    margin-top: -20px !important;
+    border-radius: 0 !important; /* Full width image looks better on mobile */
+    position: relative;
+    width: 100vw !important;
+    left: 0 !important;
+  }
+
+  [class*="Hero_bottomHero"] {
+    padding: 20px !important;
+    max-width: 100% !important;
+  }
+
+  /* --- Navbar - Clean & Functional --- */
+  [class*="Navbar_nav"] {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px) !important;
+  }
+
+  [class*="Navbar_topBar"] {
+    padding: 10px 20px !important;
+  }
+
+  [class*="Navbar_brandName"] {
+    font-size: 1.6rem !important;
+  }
+
+  /* Hide Desktop Clutter */
+  [class*="Navbar_searchContainer"],
+  [class*="Navbar_bottomBar"],
+  [class*="Navbar_actionText"],
+  [class*="Navbar_themeToggle"],
+  [class*="Navbar_notificationWrapper"],
+  [class*="Navbar_actionItem"][title="Wishlist"],
+  [class*="Navbar_actionItem"][title="Track Order"] {
+    display: none !important;
+  }
+
+  /* --- Product Grid - Shoppable Mobile Layout --- */
+  [class*="ProductGrid_productGrid"] {
+    grid-template-columns: repeat(2, 1fr) !important; /* 2 columns is better for shopping */
+    gap: 12px !important;
+    padding: 12px !important;
+  }
+
+  [class*="ProductGrid_productCard"] {
+    padding: 8px !important;
+    border-radius: 12px !important;
+  }
+
+  [class*="ProductGrid_productImage"] {
+    height: 160px !important;
+  }
+
+  [class*="ProductGrid_productName"] {
+    font-size: 0.9rem !important;
+    margin-top: 8px !important;
+  }
+
+  /* --- Story Section - Sequential Storytelling --- */
+  [class*="StorySection_content"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+
+  [class*="StorySection_imageWrapper"] {
+    order: -1;
+    height: 350px !important;
+    width: 100% !important;
+  }
+
+  /* --- Footer --- */
+  [class*="Footer_grid"] {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+  }
+}
+
+/* Specific scaling for very small devices */
+@media (max-width: 380px) {
+  [class*="Hero_headline"] { font-size: 2.2rem !important; }
+  [class*="ProductGrid_productGrid"] { grid-template-columns: 1fr !important; }
+}
