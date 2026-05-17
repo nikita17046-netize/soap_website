@@ -33,14 +33,14 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.div 
+          <motion.div
             className={styles.overlay}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
-          <motion.div 
+          <motion.div
             className={styles.menu}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -79,7 +79,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
 
               <nav className={styles.nav}>
                 {navLinks.map((link) => (
-                  <Link 
+                  <Link
                     key={link.name}
                     href={link.path}
                     className={`${styles.navLink} ${pathname === link.path ? styles.active : ''} ${link.isSpecial ? styles.special : ''}`}

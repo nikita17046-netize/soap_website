@@ -80,13 +80,13 @@ const QuizSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className={styles.resultContainer}
+          className={styles.startContainer}
         >
           <h3 className={styles.questionTitle}>Discover Your Perfect Match</h3>
           <p className={styles.description}>
-            Take our 2-step sensory quiz to find the artisan soap crafted specifically for your skin's needs and your spirit's desires.
+            Take our short sensory quiz to find the artisan soap crafted specifically for your aura.
           </p>
-          <button className="btn-primary" onClick={handleStart}>
+          <button className="btn-primary" onClick={handleStart} style={{ padding: '16px 40px', fontSize: '1.1rem', marginTop: '10px' }}>
             Start The Journey
           </button>
         </motion.div>
@@ -98,21 +98,26 @@ const QuizSection = () => {
       return (
         <motion.div 
           key={q.id}
-          initial={{ opacity: 0, x: 50 }}
+          initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -50 }}
+          exit={{ opacity: 0, x: -30 }}
+          transition={{ duration: 0.4 }}
         >
+          <span className={styles.stepIndicator}>Step {step} of {QUESTIONS.length}</span>
           <h3 className={styles.questionTitle}>{q.question}</h3>
           <div className={styles.optionsGrid}>
-            {q.options.map(opt => (
-              <button 
+            {q.options.map((opt, i) => (
+              <motion.button 
                 key={opt.value}
                 className={styles.optionBtn}
                 onClick={() => handleOptionClick(q.id, opt.value)}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 + 0.2 }}
               >
                 <span className={styles.optionIcon}>{opt.icon}</span>
                 <span className={styles.optionText}>{opt.label}</span>
-              </button>
+              </motion.button>
             ))}
           </div>
         </motion.div>
@@ -126,23 +131,26 @@ const QuizSection = () => {
     return (
       <motion.div 
         key="result"
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
         className={styles.resultContainer}
       >
-        <span className={styles.subtitle}>Your Personalized Ritual</span>
-        <h3 className={styles.resultTitle}>We found your match.</h3>
+        <span className={styles.subtitle} style={{ marginBottom: '10px' }}>Your Personalized Ritual</span>
+        <h3 className={styles.resultTitle}>We found your match</h3>
         
         <div className={styles.productCard}>
-          <Image 
-            src={recommendedProduct.image} 
-            alt={recommendedProduct.name}
-            width={120} height={120}
-            className={styles.productImage}
-          />
+          <div className={styles.imageRing}>
+            <Image 
+              src={recommendedProduct.image || recommendedProduct.images?.[0] || '/placeholder.jpg'} 
+              alt={recommendedProduct.name}
+              width={140} height={140}
+              className={styles.productImage}
+            />
+          </div>
           <div className={styles.productInfo}>
             <h3>{recommendedProduct.name}</h3>
-            <p>{recommendedProduct.description}</p>
+            <p>{recommendedProduct.description || "A beautiful artisanal soap tailored to your needs."}</p>
             <div className={styles.actions}>
               <button 
                 className="btn-primary"
@@ -150,7 +158,7 @@ const QuizSection = () => {
               >
                 Add to Cart - ₹{recommendedProduct.price}
               </button>
-              <Link href={`/shop/product/${recommendedProduct.id}`} className="btn-secondary">
+              <Link href={`/shop/product/${recommendedProduct.id || recommendedProduct._id}`} className="btn-secondary">
                 View Details
               </Link>
             </div>
@@ -166,18 +174,26 @@ const QuizSection = () => {
 
   return (
     <section className={styles.section}>
+      <div className={styles.decoration1} />
+      <div className={styles.decoration2} />
+      
       <div className={styles.container}>
-        <div className={styles.header}>
+        <div className={styles.textColumn}>
           <span className={styles.subtitle}>Bespoke Experience</span>
           <h2 className={styles.title}>Find Your Ritual</h2>
+          <p className={styles.sectionDesc}>
+            Embark on a sensory journey. Let us guide you to the perfect artisanal soap that harmonizes with your skin's needs and elevates your spirit.
+          </p>
         </div>
 
-        <div className={styles.quizBox}>
-          {mounted && (
-            <AnimatePresence mode="wait">
-              {renderContent()}
-            </AnimatePresence>
-          )}
+        <div className={styles.quizColumn}>
+          <div className={styles.quizBox}>
+            {mounted && (
+              <AnimatePresence mode="wait">
+                {renderContent()}
+              </AnimatePresence>
+            )}
+          </div>
         </div>
       </div>
     </section>

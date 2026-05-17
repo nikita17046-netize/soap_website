@@ -161,7 +161,7 @@ return (
                 <h3>Ingredients</h3>
                 <div className={styles.tags}>
                   {Array.isArray(product.ingredients) ? (
-                    product.ingredients.map(ing => (
+                    product.ingredients.map((ing: string) => (
                       <span key={ing} className={styles.tag}>{ing}</span>
                     ))
                   ) : (
@@ -178,7 +178,7 @@ return (
                 <h3>Benefits</h3>
                 <ul className={styles.list}>
                   {Array.isArray(product.benefits) ? (
-                    product.benefits.map(ben => (
+                    product.benefits.map((ben: string) => (
                       <li key={ben}>{ben}</li>
                     ))
                   ) : (

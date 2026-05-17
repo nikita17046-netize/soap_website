@@ -1,5 +1,6 @@
 export interface Product {
   id: number;
+  _id?: string;
   name: string;
   price: number;
   image: string;
@@ -10,6 +11,10 @@ export interface Product {
   ingredients?: string[];
   benefits?: string[];
   ritual?: string;
+  originalPrice?: number;
+  isOffer?: boolean;
+  offerLabel?: string;
+  createdAt?: string;
 }
 
 export const PRODUCTS: Product[] = [

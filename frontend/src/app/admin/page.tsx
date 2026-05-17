@@ -44,6 +44,19 @@ const AdminPanel = () => {
   const [selectedOrderForInvoice, setSelectedOrderForInvoice] = useState<any>(null);
   const [selectedUserForDetail, setSelectedUserForDetail] = useState<any>(null);
 
+  // About Details Management State
+  const [aboutDetails, setAboutDetails] = useState<any[]>([]);
+  const [editingAbout, setEditingAbout] = useState<any>(null);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [selectedAboutTab, setSelectedAboutTab] = useState<'all' | 'milestone' | 'stage' | 'botanical' | 'quest'>('all');
+  const [aboutFormData, setAboutFormData] = useState({
+    type: 'milestone',
+    title: '',
+    subtitle: '',
+    value: '',
+    description: ''
+  });
+
   // Form State
   const [formData, setFormData] = useState({
     name: '',
@@ -90,19 +103,102 @@ const AdminPanel = () => {
     const headers = { 'Authorization': `Bearer ${user.token}` };
 
     try {
-      const [prodRes, ordRes, usrRes, msgRes] = await Promise.all([
+      const [prodRes, ordRes, usrRes, msgRes, abtRes] = await Promise.all([
         fetch(`${API_URL}/products?t=${Date.now()}`),
         fetch(`${API_URL}/orders`, { headers }),
         fetch(`${API_URL}/users`, { headers }),
-        fetch(`${API_URL}/messages?t=${Date.now()}`, { headers })
+        fetch(`${API_URL}/messages?t=${Date.now()}`, { headers }),
+        fetch(`${API_URL}/about?t=${Date.now()}`)
       ]);
 
       if (prodRes.ok) setProducts(await prodRes.json());
       if (ordRes.ok) setOrders(await ordRes.json());
       if (usrRes.ok) setUsers(await usrRes.json());
       if (msgRes.ok) setMessages(await msgRes.json());
+      if (abtRes.ok) setAboutDetails(await abtRes.json());
     } catch (error) {
       console.error('Error fetching admin data:', error);
+    }
+  };
+
+  // About CRUD Actions
+  const openAboutModal = (detail: any = null) => {
+    if (detail) {
+      setEditingAbout(detail);
+      setAboutFormData({
+        type: detail.type,
+        title: detail.title,
+        subtitle: detail.subtitle || '',
+        value: detail.value || '',
+        description: detail.description
+      });
+    } else {
+      setEditingAbout(null);
+      setAboutFormData({
+        type: 'milestone',
+        title: '',
+        subtitle: '',
+        value: '',
+        description: ''
+      });
+    }
+    setIsAboutModalOpen(true);
+  };
+
+  const handleSaveAboutDetail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${user?.token}`
+    };
+
+    try {
+      const isMock = editingAbout && (
+        editingAbout._id.startsWith('m') ||
+        editingAbout._id.startsWith('s') ||
+        editingAbout._id.startsWith('b') ||
+        editingAbout._id.startsWith('q')
+      );
+      const url = (editingAbout && !isMock) ? `${API_URL}/about/${editingAbout._id}` : `${API_URL}/about`;
+      const method = (editingAbout && !isMock) ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers,
+        body: JSON.stringify(aboutFormData)
+      });
+
+      if (response.ok) {
+        alert(editingAbout ? 'About detail updated!' : 'New detail added successfully!');
+        setIsAboutModalOpen(false);
+        setEditingAbout(null);
+        await fetchData();
+      } else {
+        const err = await response.json();
+        alert(`Error: ${err.message}`);
+      }
+    } catch (err) {
+      console.error('Error saving about detail:', err);
+      alert('Network error while saving about detail.');
+    }
+  };
+
+  const handleDeleteAboutDetail = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this detail?')) return;
+    try {
+      const response = await fetch(`${API_URL}/about/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${user?.token}` }
+      });
+      if (response.ok) {
+        alert('Detail deleted successfully!');
+        await fetchData();
+      } else {
+        const err = await response.json();
+        alert(`Error: ${err.message}`);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -401,6 +497,10 @@ const AdminPanel = () => {
             <MessageSquare size={20} />
             <span>Messages</span>
           </button>
+          <button className={`${styles.navItem} ${activeTab === 'about' ? styles.activeNav : ''}`} onClick={() => setActiveTab('about')}>
+            <FileText size={20} />
+            <span>About Details</span>
+          </button>
         </nav>
 
         <div className={styles.sidebarBox} onClick={() => setIsDiagnosticsOpen(true)} style={{ cursor: 'pointer' }}>
@@ -431,6 +531,7 @@ const AdminPanel = () => {
             {activeTab === 'wishlists' && 'Wishlist Intelligence'}
             {activeTab === 'offers' && 'Promotional Offers'}
             {activeTab === 'messages' && 'Customer Inquiries'}
+            {activeTab === 'about' && 'About Us Manager'}
           </h1>
           <button className={styles.refreshBtn} onClick={refreshAllData} title="Refresh Latest Data">
             <RefreshCw size={18} /> Sync Data
@@ -1353,7 +1454,7 @@ const AdminPanel = () => {
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             {msg.reply && (
                               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                {msg.reply.split('|NEXT|').map((r, idx) => {
+                                {msg.reply.split('|NEXT|').map((r: string, idx: number) => {
                                   const isAdmin = r.startsWith('ADMIN:');
                                   const cleanText = r.replace(/^(ADMIN:|USER:)\s*/, '');
                                   
@@ -1437,7 +1538,312 @@ const AdminPanel = () => {
             </div>
           </div>
         )}
+
+        {activeTab === 'about' && (
+          <div key="about-tab" className="animate-fade-in" suppressHydrationWarning>
+            {aboutDetails.length === 0 && (
+              <div style={{ 
+                background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)', 
+                border: '1px solid #f59e0b',
+                padding: '25px', 
+                borderRadius: '20px', 
+                marginBottom: '30px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                boxShadow: '0 10px 25px rgba(245, 158, 11, 0.05)'
+              }}>
+                <div>
+                  <h4 style={{ margin: 0, color: '#92400e', fontSize: '1.1rem', fontFamily: 'Playfair Display' }}>🌿 Sync Default Sanctuary Details</h4>
+                  <p style={{ margin: '5px 0 0', color: '#b45309', fontSize: '0.85rem' }}>
+                    Your database about details are currently unseeded. Click sync to permanently populate all 16 handcrafted milestones, stages, botanical origins, and eco quests to MongoDB!
+                  </p>
+                </div>
+                <button 
+                  onClick={async () => {
+                    try {
+                      alert('Initializing and syncing all 16 handcrafted default details in MongoDB database...');
+                      const res = await fetch('http://127.0.0.1:8000/api/about');
+                      if (res.ok) {
+                        alert('All details successfully initialized and synced!');
+                        await fetchData();
+                      }
+                    } catch (err) {
+                      console.error(err);
+                      alert('Error initializing details.');
+                    }
+                  }}
+                  style={{
+                    background: '#92400e',
+                    color: '#fff',
+                    border: 'none',
+                    padding: '12px 25px',
+                    borderRadius: '12px',
+                    fontWeight: '800',
+                    cursor: 'pointer',
+                    fontSize: '0.8rem',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  SYNC ALL DATA NOW
+                </button>
+              </div>
+            )}
+
+            {/* Filter pills */}
+            <div style={{ 
+              display: 'flex', 
+              gap: '12px', 
+              marginBottom: '35px', 
+              flexWrap: 'wrap', 
+              background: '#fff', 
+              padding: '15px 25px', 
+              borderRadius: '20px', 
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.01)'
+            }}>
+              {[
+                { id: 'all', label: '✨ Show All Sections' },
+                { id: 'milestone', label: '🏆 Milestones & Stats' },
+                { id: 'stage', label: '🧪 Saponification Stages' },
+                { id: 'botanical', label: '🌿 Botanicals & Sourcing' },
+                { id: 'quest', label: '🌍 Active Quests' }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setSelectedAboutTab(tab.id as any)}
+                  style={{
+                    background: selectedAboutTab === tab.id ? 'linear-gradient(135deg, var(--accent-secondary, #9c7e5d) 0%, #a68b5a 100%)' : '#f8fafc',
+                    color: selectedAboutTab === tab.id ? '#fff' : '#64748b',
+                    border: selectedAboutTab === tab.id ? '1px solid var(--accent-secondary, #9c7e5d)' : '1px solid #e2e8f0',
+                    padding: '10px 22px',
+                    borderRadius: '50px',
+                    fontWeight: '800',
+                    fontSize: '0.82rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease',
+                    boxShadow: selectedAboutTab === tab.id ? '0 8px 20px rgba(156, 126, 93, 0.25)' : 'none'
+                  }}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            <div className={styles.tableWrapper} style={{ background: 'transparent', boxShadow: 'none' }}>
+              {/* Grouped by Section Type */}
+              {['milestone', 'stage', 'botanical', 'quest']
+                .filter((sectType) => selectedAboutTab === 'all' || selectedAboutTab === sectType)
+                .map((sectType) => {
+                  const rawItems = aboutDetails.length > 0 ? aboutDetails : [
+                    // Milestones
+                    { _id: 'm1', type: 'milestone', title: 'Bars Hand-Cured', value: '15K+', description: 'Each bar is patiently cured for 42 days to ensure a rich, dense, and nourishing lather.' },
+                    { _id: 'm2', type: 'milestone', title: 'Organic Botanical Farms', value: '25+', description: 'Directly sourcing pure botanicals, herbs, and oils from local organic family growers.' },
+                    { _id: 'm3', type: 'milestone', title: 'Ritual Satisfaction', value: '99%', description: 'Loved by discerning clients seeking an absolute, chemical-free aromatherapy escape.' },
+                    { _id: 'm4', type: 'milestone', title: 'Eco-Biodegradable', value: '100%', description: 'Ensuring our products leave zero toxic traces on your skin or the planet.' },
+                    // Stages
+                    { _id: 's1', type: 'stage', title: 'Botanical Selection', value: '01', description: 'We source fresh medicinal herbs, flowers, and roots at their peak seasonal potency. Herbs like Neem and Kesuda are wild-harvested during early morning hours to preserve active enzymes and antioxidants.' },
+                    { _id: 's2', type: 'stage', title: 'Organic Oil Blending', value: '02', description: 'We formulate our base using premium food-grade organic oils, including virgin cold-pressed coconut oil, sweet almond oil, extra virgin olive oil, and organic shea butter. No palm oil is ever used.' },
+                    { _id: 's3', type: 'stage', title: 'Slow Cold-Saponification', value: '03', description: 'Ingredients are blended at low temperatures (below 110°F) to protect heat-sensitive vitamins and nutrients. This chemical reaction naturally produces and retains 100% of the natural moisturizing glycerin.' },
+                    { _id: 's4', type: 'stage', title: 'Hand-Pouring & Cutting', value: '04', description: 'The thick soap batter is poured into solid cedar wood molds and insulated for 48 hours. Once solid, the block is hand-sliced into individual bars and stamped with our signature copper emblem.' },
+                    { _id: 's5', type: 'stage', title: 'The 42-Day Sanctuary Cure', value: '05', description: 'The sliced bars rest on custom cedar drying racks in a temperature-controlled curing chamber for 6 weeks. This cures the water content, making the bars incredibly hard, long-lasting, and remarkably mild on sensitive skin.' },
+                    // Botanicals
+                    { _id: 'b1', type: 'botanical', title: 'Kesuda (Flame of the Forest)', subtitle: 'Sourced from: foothills of gir forests', description: 'Used for centuries in Vedic rituals, Kesuda flowers are hand-collected at spring bloom. They provide active natural yellow-orange pigments and act as a powerful cooling agent, repairing skin irritation, blemishes, and maintaining a hydrated, radiant complexion.' },
+                    { _id: 'b2', type: 'botanical', title: 'Artisanal Organic Neem', subtitle: 'Sourced from: certified organic farms', description: 'Highly anti-bacterial and loaded with skin-healing nimbin compounds. We steam-extract pure neem oil and blend crushed neem leaves directly into the soap batter to create a gentle, therapeutic exfoliant that purifies acne-prone skin and relieves dry eczema naturally.' },
+                    { _id: 'b3', type: 'botanical', title: 'Pampore Saffron (Kesar)', subtitle: 'Sourced from: kashmiri saffron cooperatives', description: 'Known as "red gold", Pampore Saffron is harvested thread-by-thread under strict quality checks. Infused into our premium facial soap bars, it provides intense antioxidant shield, lightens dark spots, and imparts an incomparable golden glow.' },
+                    { _id: 'b4', type: 'botanical', title: 'Wild Lemongrass', subtitle: 'Sourced from: western ghats steam distillery', description: 'Steam-distilled within hours of morning harvesting, wild lemongrass essential oil acts as a powerful natural astringent. It tones skin pores, balances excess sebum, and offers an uplifting aromatherapy scent that triggers deep sensory relaxation.' },
+                    // Quests
+                    { _id: 'q1', type: 'quest', title: 'Pure Water Conservation', subtitle: 'ACTIVE QUEST', description: 'Because our soaps are entirely biodegradable and free of chemical surfactants, our production and drainage leave river beds and underground aquifers completely pure and clean.' },
+                    { _id: 'q2', type: 'quest', title: 'Zero-Plastic Seed Packaging', subtitle: 'ACTIVE QUEST', description: 'We pledge to remain 100% plastic-free. All products are wrapped in hand-stamped seeded plantable paper or stored in heavy, reusable glass bottles.' },
+                    { _id: 'q3', type: 'quest', title: 'Artisan Empowerment', subtitle: 'ACTIVE QUEST', description: 'We employ and train local rural women, providing fair living wages and empowering them with the highly respected artisan trade of botanical preservation and oil pressing.' }
+                  ];
+
+                  const filtered = rawItems.filter((d) => d.type === sectType);
+                  const titleMap: Record<string, string> = {
+                    milestone: '🏆 Brand Milestones & Stats',
+                    stage: '🧪 5 Saponification Stages',
+                    botanical: '🌿 Rare Botanicals & Sourcing',
+                    quest: '🌍 Active Brand Quests'
+                  };
+
+                  return (
+                    <div key={sectType} style={{ 
+                      marginTop: '10px', 
+                      marginBottom: '40px',
+                      background: '#fff',
+                      borderRadius: '24px',
+                      padding: '30px 40px',
+                      border: '1px solid #e2e8f0',
+                      boxShadow: '0 8px 30px rgba(0,0,0,0.02)'
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '2px solid rgba(156, 126, 93, 0.1)', paddingBottom: '12px' }}>
+                        <h4 style={{ 
+                          fontSize: '1.25rem', 
+                          fontFamily: 'Playfair Display', 
+                          color: 'var(--accent-primary)',
+                          margin: 0
+                        }}>
+                          {titleMap[sectType]}
+                        </h4>
+                        {aboutDetails.length === 0 && (
+                          <span style={{ fontSize: '0.75rem', background: '#e2e8f0', color: '#64748b', padding: '4px 12px', borderRadius: '50px', fontWeight: 700 }}>
+                            FALLBACK PREVIEW (UNSYNCED)
+                          </span>
+                        )}
+                      </div>
+
+                      {filtered.length > 0 ? (
+                        <table className={styles.adminTable}>
+                          <thead>
+                            <tr>
+                              <th style={{ width: '20%', paddingLeft: '0' }}>Title</th>
+                              <th style={{ width: '15%' }}>Subtitle/Label</th>
+                              <th style={{ width: '15%' }}>Value/Step</th>
+                              <th style={{ width: '35%' }}>Description</th>
+                              <th style={{ width: '15%', textAlign: 'right', paddingRight: '0' }}>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {filtered.map((item) => {
+                              const isMock = item._id.startsWith('m') || item._id.startsWith('s') || item._id.startsWith('b') || item._id.startsWith('q');
+                              return (
+                                <tr key={item._id}>
+                                  <td style={{ paddingLeft: '0' }}><strong>{item.title}</strong></td>
+                                  <td>
+                                    <span className={styles.categoryTag} style={{ background: '#f1f5f9', color: '#475569', padding: '4px 10px', borderRadius: '6px' }}>
+                                      {item.subtitle || 'N/A'}
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span style={{ fontWeight: 800, color: 'var(--accent-secondary, #9c7e5d)', fontSize: '1.1rem' }}>
+                                      {item.value || 'N/A'}
+                                    </span>
+                                  </td>
+                                  <td style={{ fontSize: '0.85rem', lineHeight: '1.6', color: '#475569' }}>{item.description}</td>
+                                  <td style={{ textAlign: 'right', paddingRight: '0' }}>
+                                    <button className={styles.actionBtn} onClick={() => openAboutModal(item)} title="Edit Detail">
+                                      <Edit2 size={16} />
+                                    </button>
+                                    {!isMock && (
+                                      <button 
+                                        className={`${styles.actionBtn} ${styles.deleteBtn}`} 
+                                        onClick={() => handleDeleteAboutDetail(item._id)} 
+                                        title="Delete Detail"
+                                      >
+                                        <Trash2 size={16} />
+                                      </button>
+                                    )}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      ) : (
+                        <p style={{ fontSize: '0.85rem', color: '#94a3b8', padding: '15px', background: '#f8fafc', borderRadius: '12px', margin: 0 }}>
+                          No items added to this section yet.
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        )}
       </main>
+
+      {/* Modal for About Detail Add/Edit */}
+      {isAboutModalOpen && (
+        <div className={styles.modalOverlay} onClick={() => setIsAboutModalOpen(false)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '600px' }}>
+            <h3>{editingAbout ? 'Edit About Detail' : 'Create About Detail'}</h3>
+            <form onSubmit={handleSaveAboutDetail}>
+              <div className={styles.formGrid}>
+                <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
+                  <label>Section Type</label>
+                  <select 
+                    value={aboutFormData.type} 
+                    onChange={(e) => setAboutFormData({ ...aboutFormData, type: e.target.value })}
+                    style={{
+                      width: '100%',
+                      padding: '12px 20px',
+                      borderRadius: '12px',
+                      border: '1px solid #e2e8f0',
+                      outline: 'none',
+                      background: '#fff',
+                      fontSize: '0.9rem',
+                      color: '#000'
+                    }}
+                    required
+                  >
+                    <option value="milestone">Milestone (Stat Card)</option>
+                    <option value="stage">Saponification Stage</option>
+                    <option value="botanical">Rare Botanical / Sourcing</option>
+                    <option value="quest">Brand Quest (Ecological Mission)</option>
+                  </select>
+                </div>
+
+                <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
+                  <label>Title</label>
+                  <input 
+                    type="text" 
+                    value={aboutFormData.title} 
+                    onChange={(e) => setAboutFormData({ ...aboutFormData, title: e.target.value })} 
+                    placeholder="e.g. Kesuda (Flame of the Forest) or zero-waste seeds" 
+                    required 
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label>Subtitle / Origin / Badge Label</label>
+                  <input 
+                    type="text" 
+                    value={aboutFormData.subtitle} 
+                    onChange={(e) => setAboutFormData({ ...aboutFormData, subtitle: e.target.value })} 
+                    placeholder="e.g. Sourced from: Gir Forests or ACTIVE QUEST" 
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label>Value / Stat Number / Stage Step</label>
+                  <input 
+                    type="text" 
+                    value={aboutFormData.value} 
+                    onChange={(e) => setAboutFormData({ ...aboutFormData, value: e.target.value })} 
+                    placeholder="e.g. 15K+, 99%, or 01, 02" 
+                  />
+                </div>
+
+                <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
+                  <label>Detailed Description</label>
+                  <textarea 
+                    value={aboutFormData.description} 
+                    onChange={(e) => setAboutFormData({ ...aboutFormData, description: e.target.value })} 
+                    placeholder="Provide highly rich details..." 
+                    style={{
+                      width: '100%',
+                      minHeight: '120px',
+                      padding: '15px',
+                      borderRadius: '16px',
+                      border: '1px solid #e2e8f0',
+                      outline: 'none',
+                      fontFamily: 'inherit',
+                      fontSize: '0.9rem',
+                      color: '#000'
+                    }}
+                    required 
+                  />
+                </div>
+              </div>
+
+              <div className={styles.modalActions} style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop: '20px' }}>
+                <button type="button" className={styles.cancelBtn} onClick={() => setIsAboutModalOpen(false)}>Cancel</button>
+                <button type="submit" className={styles.saveBtn}>Save Details</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Modal for Product Add/Edit */}
       {isModalOpen && (

@@ -15,6 +15,8 @@ export interface Product {
   category?: string;
   isOffer?: boolean;
   offerLabel?: string;
+  originalPrice?: number;
+  createdAt?: string;
 }
 
 interface CartItem extends Product {

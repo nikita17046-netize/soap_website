@@ -9,11 +9,11 @@ const Hero = () => {
         <div className={styles.editorialContent}>
           <span className={`${styles.label} reveal`}>Artisanal Collection 2026</span>
           <h1 className={`${styles.headline} reveal-delayed`}>
-            The Pure <br /> <span>Essence</span> of <br /> Nature
+            Handcrafted <br /> <span>with</span> <br /> Nature's
           </h1>
           <div className={`${styles.bottomHero} reveal-delayed`}>
             <p className={styles.heroText}>
-              Meticulously handcrafted in small batches, our soaps are a blend of 
+              Meticulously handcrafted in small batches, our soaps are a blend of
               botanical wisdom and modern luxury.
             </p>
             <div className={styles.heroActions}>
@@ -23,9 +23,9 @@ const Hero = () => {
         </div>
 
         <div className={`${styles.mainImage} reveal`}>
-          <Image 
-            src="/artisanal-workshop.png" 
-            alt="Artisanal Workshop" 
+          <Image
+            src="/artisanal-workshop.png"
+            alt="Artisanal Workshop"
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className={styles.heroImage}

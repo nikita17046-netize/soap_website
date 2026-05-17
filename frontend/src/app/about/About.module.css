@@ -1,6 +1,8 @@
 .aboutPage {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: var(--bg-primary, #fffaf5);
+  color: var(--text-primary, #2d2620);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 
 .header {
@@ -9,9 +11,10 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/artisanal-workshop.png');
+  background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('/artisanal-workshop.png');
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   color: white;
   position: relative;
 }
@@ -23,11 +26,14 @@
 
 .label {
   display: block;
+  font-family: 'Outfit', sans-serif;
   font-size: 0.9rem;
-  letter-spacing: 0.3em;
+  font-weight: 600;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
   margin-bottom: 20px;
-  opacity: 0.9;
+  color: #d4af37;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .title {
@@ -35,45 +41,404 @@
   font-family: 'Playfair Display', serif;
   font-weight: 400;
   line-height: 1.1;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
-.philosophy {
-  padding: 120px 0;
-  border-top: 1px solid var(--border-color);
+.headerDesc {
+  font-size: 1.2rem;
+  font-weight: 300;
+  opacity: 0.9;
+  margin-top: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
 }
 
+/* Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 40px;
-}
-
-.philosophyGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 60px;
-}
-
-.philosophyItem h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-  color: var(--accent-primary);
-}
-
-.philosophyItem p {
-  line-height: 1.8;
-  opacity: 0.8;
-  font-size: 1rem;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
-  .philosophyGrid {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+/* Story Section */
+.storySection {
+  padding: 120px 0;
+  background: var(--bg-primary, #fffaf5);
+}
+
+.storyGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.storyContent {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.sectionSubtitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--accent-secondary, #9c7e5d);
+}
+
+.sectionTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: var(--accent-primary, #9c7e5d);
+  line-height: 1.15;
+}
+
+.storyParagraph {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-secondary, #5c554f);
+  font-weight: 300;
+}
+
+.signatureBlock {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.signatureText {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--accent-primary, #9c7e5d);
+}
+
+.signatureTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-secondary, #5c554f);
+  margin-top: 5px;
+}
+
+.storyVisual {
+  position: relative;
+  width: 100%;
+}
+
+.imageCard {
+  position: relative;
+  height: 550px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(156, 126, 93, 0.08);
+}
+
+.visualImage {
+  object-fit: cover;
+}
+
+/* Achievements Section */
+.achievements {
+  padding: 120px 0;
+  background-color: var(--bg-secondary, #fcf6ef);
+  border-top: 1px solid rgba(156, 126, 93, 0.06);
+  border-bottom: 1px solid rgba(156, 126, 93, 0.06);
+}
+
+.sectionHeaderCentered {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 80px;
+  padding: 0 20px;
+}
+
+.sectionSubtitleCentered {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--accent-secondary, #9c7e5d);
+  display: block;
+  margin-bottom: 15px;
+}
+
+.sectionTitleCentered {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  color: var(--accent-primary, #9c7e5d);
+  line-height: 1.15;
+}
+
+.sectionDescCentered {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-secondary, #5c554f);
+  margin-top: 20px;
+  font-weight: 300;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 30px;
+}
+
+.statCard {
+  background: var(--bg-primary, #fffaf5);
+  border: 1px solid rgba(156, 126, 93, 0.06);
+  padding: 50px 30px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(156, 126, 93, 0.02);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.statCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(156, 126, 93, 0.08);
+  border-color: var(--accent-secondary, #9c7e5d);
+}
+
+.statValue {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--accent-primary, #9c7e5d);
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+.statTitle {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-primary, #2d2620);
+  margin-bottom: 15px;
+}
+
+.statDesc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-secondary, #5c554f);
+  font-weight: 300;
+}
+
+/* 5 Saponification Stages Styling */
+.stagesSection {
+  padding: 120px 0;
+  background-color: var(--bg-primary, #fffaf5);
+  border-bottom: 1px solid rgba(156, 126, 93, 0.06);
+}
+
+.stagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 25px;
+}
+
+.stageCard {
+  background: var(--bg-secondary, #fcf6ef);
+  border: 1px solid rgba(156, 126, 93, 0.06);
+  padding: 40px 25px;
+  border-radius: 24px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stageCard:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent-secondary, #9c7e5d);
+  box-shadow: 0 20px 40px rgba(156, 126, 93, 0.06);
+}
+
+.stageNumber {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: rgba(156, 126, 93, 0.15);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.stageTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  color: var(--text-primary, #2d2620);
+  margin-bottom: 15px;
+}
+
+.stageDesc {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--text-secondary, #5c554f);
+  font-weight: 300;
+}
+
+/* Botanical Sourcing Grid Styling */
+.botanicalSection {
+  padding: 120px 0;
+  background-color: var(--bg-secondary, #fcf6ef);
+  border-bottom: 1px solid rgba(156, 126, 93, 0.06);
+}
+
+.botanicalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.botanicalCard {
+  background: var(--bg-primary, #fffaf5);
+  border: 1px solid rgba(156, 126, 93, 0.06);
+  padding: 50px 40px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 15px 35px rgba(156, 126, 93, 0.02);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.botanicalCard:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent-secondary, #9c7e5d);
+  box-shadow: 0 20px 45px rgba(156, 126, 93, 0.06);
+}
+
+.botanicalOrigin {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent-secondary, #9c7e5d);
+  margin-bottom: 15px;
+}
+
+.botanicalTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  color: var(--text-primary, #2d2620);
+  margin-bottom: 20px;
+}
+
+.botanicalDesc {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-secondary, #5c554f);
+  font-weight: 300;
+}
+
+/* Quests Section */
+.questsSection {
+  padding: 120px 0;
+  background-color: var(--bg-primary, #fffaf5);
+}
+
+.questsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.questCard {
+  background: var(--bg-secondary, #fcf6ef);
+  border: 1px solid rgba(156, 126, 93, 0.06);
+  padding: 50px 40px;
+  border-radius: 24px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.questCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(156, 126, 93, 0.08);
+  border-color: var(--accent-secondary, #9c7e5d);
+}
+
+.questIconWrapper {
+  color: var(--accent-primary, #9c7e5d);
+  margin-bottom: 30px;
+}
+
+.questBadge {
+  display: inline-block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: rgba(156, 126, 93, 0.08);
+  color: var(--accent-primary, #9c7e5d);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 15px;
+}
+
+.questTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--text-primary, #2d2620);
+  margin-bottom: 15px;
+}
+
+.questDesc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary, #5c554f);
+  font-weight: 300;
+}
+
+/* Responsive Overrides */
+@media (max-width: 968px) {
+  .storyGrid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 50px;
+  }
+  
+  .imageCard {
+    height: 400px;
+  }
+
+  .header {
+    height: 50vh;
+  }
+  
+  .storySection,
+  .achievements,
+  .stagesSection,
+  .botanicalSection,
+  .questsSection {
+    padding: 80px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .botanicalCard, .questCard {
+    padding: 40px 25px;
   }
   
   .header {
-    height: 50vh;
+    height: 45vh;
   }
 }

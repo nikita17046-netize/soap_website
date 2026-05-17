@@ -100,3 +100,40 @@
   overflow: hidden;
   box-shadow: var(--soft-shadow);
 }
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--accent-primary, #9c7e5d);
+  color: #ffffff;
+  padding: 16px 36px;
+  border-radius: 50px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--accent-primary, #9c7e5d);
+  cursor: pointer;
+  align-self: flex-start;
+  margin-top: 15px;
+  text-decoration: none;
+  box-shadow: 0 10px 25px rgba(156, 126, 93, 0.15);
+}
+
+.ctaButton:hover {
+  background: transparent;
+  color: var(--accent-primary, #9c7e5d);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(156, 126, 93, 0.25);
+}
+
+.ctaArrow {
+  transition: transform 0.3s ease;
+}
+
+.ctaButton:hover .ctaArrow {
+  transform: translateX(5px);
+}
